@@ -1,0 +1,61 @@
+version: '3'
+
+services:
+  app:
+    build: .
+    container_name: laravel_app
+    networks:
+      default:
+        aliases:
+          - app
+    working_dir: /var/www/html
+    volumes:
+      - .:/var/www/html
+      - vendor_data:/var/www/html/vendor
+      - node_modules_data:/var/www/html/node_modules
+    ports:
+      - "3000:3000"
+      - "5173:5173"
+    environment:
+      - DB_HOST=db
+      - DB_PORT=3306
+      - DB_DATABASE=laravel_db
+      - DB_USERNAME=laravel_user
+      - DB_PASSWORD=secret
+    depends_on:
+      - db
+      - chrome
+
+  db:
+    image: mysql:8.0
+    container_name: laravel_db
+    restart: always
+    environment:
+      MYSQL_DATABASE: laravel_db
+      MYSQL_USER: laravel_user
+      MYSQL_PASSWORD: secret
+      MYSQL_ROOT_PASSWORD: secret
+    volumes:
+      - db_data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    networks:
+      - default
+
+  chrome:
+    image: seleniarm/standalone-chromium:latest
+    container_name: chrome
+    ports:
+      - "4444:4444"
+    networks:
+      - default
+
+volumes:
+  vendor_data:
+  node_modules_data:
+  db_data:
+
+networks:
+  default:
+    driver: bridge
+

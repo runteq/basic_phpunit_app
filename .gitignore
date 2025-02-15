@@ -1,0 +1,45 @@
+# 依存関係ディレクトリ
+/vendor
+/node_modules
+
+# Laravel のビルド成果物
+/public/build
+/public/hot
+/public/storage
+
+# Storage 内のキー、キャッシュ、ログ、セッション、ビュー
+/storage/*.key
+/storage/pail
+/storage/logs
+/storage/framework/cache/*
+/storage/framework/sessions/*
+/storage/framework/views/*
+
+# 環境設定ファイル（実運用ではコミットしない）
+# .env
+.env.*.backup
+.env.testing
+.env.dusk.local
+
+# エディタ／IDE 関連
+/.phpactor.json
+Homestead.json
+Homestead.yaml
+npm-debug.log
+yarn-error.log
+/auth.json
+/.fleet
+/.idea
+/.nova
+/.vscode
+/.zed
+/.DS_Store
+/.editorconfig
+
+# Supervisor 関連
+/supervisord.log
+/supervisord.pid
+
+# phpunit 関連
+/.phpunit.result.cache
+/.phpunit.cache
