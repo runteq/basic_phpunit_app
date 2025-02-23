@@ -4,11 +4,6 @@
 
 @section('content')
     <h1>ようこそ, {{ auth()->user()->name ?? 'User' }} さん</h1>
-    @if(session('notice'))
-        <div class="alert alert-success">
-            {{ session('notice') }}
-        </div>
-    @endif
 
     <!-- タスク作成ボタン -->
     <div class="mb-3">

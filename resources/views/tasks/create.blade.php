@@ -38,7 +38,7 @@
                 <span class="text-danger">{{ $message }}</span>
             @enderror
         </div>
-        <button type="submit" class="btn btn-success">Create Task</button>
+        <button type="submit" class="btn btn-success">登録</button>
     </form>
 @endsection
 
