@@ -10,6 +10,7 @@ class UserController extends Controller
 {
     public function __construct()
     {
+        // ログインしていないユーザーには、create と store を除いてアクセス不可にする
         $this->middleware('auth')->except(['create', 'store']);
     }
 
@@ -29,9 +30,11 @@ class UserController extends Controller
         $validated = $request->validate([
             'email'    => 'required|email|unique:users,email',
             'password' => 'required|min:3|confirmed',
+            'name'     => 'required', // テストではnameも入力しているため追加
         ]);
 
         $user = User::create([
+            'name'     => $validated['name'],
             'email'    => $validated['email'],
             'password' => Hash::make($validated['password']),
         ]);
@@ -43,6 +46,8 @@ class UserController extends Controller
     {
         return view('users.show', compact('user'));
     }
+
+    // 既存の edit, update, destroy はそのまま利用
 
     public function edit(User $user)
     {
@@ -61,9 +66,13 @@ class UserController extends Controller
         $validated = $request->validate([
             'email'    => "required|email|unique:users,email,{$user->id}",
             'password' => 'nullable|min:3|confirmed',
+            'name'     => 'required',
         ]);
 
-        $data = ['email' => $validated['email']];
+        $data = [
+            'email' => $validated['email'],
+            'name'  => $validated['name'],
+        ];
         if (!empty($validated['password'])) {
             $data['password'] = Hash::make($validated['password']);
         }
@@ -81,4 +90,18 @@ class UserController extends Controller
         $user->delete();
         return redirect()->route('dashboard')->with('notice', 'ユーザーが正常に削除されました');
     }
+
+    public function mypage()
+    {
+        $user = auth()->user();
+        // ここでは users.show ビューを流用してもよいですが、専用ビューを作成してもよいです
+        return view('users.mypage', compact('user'));
+    }
+
+    public function editProfile()
+    {
+        $user = auth()->user();
+        return view('users.edit', compact('user'));
+    }
 }
+

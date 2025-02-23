@@ -5,6 +5,7 @@
 @section('content')
     <h1>ユーザープロフィール</h1>
 
+    <p><strong>Name:</strong> {{ $user->name }}</p>
     <p><strong>Email:</strong> {{ $user->email }}</p>
     
     <a href="{{ route('users.edit', $user) }}" class="btn btn-primary">プロフィール編集</a>
