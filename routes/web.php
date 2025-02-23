@@ -6,8 +6,8 @@ use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return redirect()->route('login');
-});
+    return view('welcome');
+})->name('home');
 
 Route::get('/dashboard', [TaskController::class, 'index'])->middleware('auth')->name('dashboard');
 
