@@ -10,10 +10,6 @@ class TaskController extends Controller
 {
     public function index()
     {
-        if (!Auth::check()) {
-            return view('auth.login');
-        }
-
         $tasks = Auth::user()->tasks()->get();
         return view('tasks.index', compact('tasks'));
     }
@@ -34,7 +30,7 @@ class TaskController extends Controller
 
         $task = Auth::user()->tasks()->create($validated);
 
-        return redirect()->route('tasks.show', $task)->with('notice', 'Task was successfully created.');
+        return redirect()->route('tasks.show', $task)->with('notice', 'タスクが正常に作成されました');
     }
 
     public function show(Task $task)
@@ -45,7 +41,7 @@ class TaskController extends Controller
     public function edit(Task $task)
     {
         if ($task->user_id !== Auth::id()) {
-            return redirect()->route('home')->with('alert', 'Forbidden access.');
+            return redirect()->route('dashboard')->with('alert', 'Forbidden access.');
         }
         return view('tasks.edit', compact('task'));
     }
@@ -53,7 +49,7 @@ class TaskController extends Controller
     public function update(Request $request, Task $task)
     {
         if ($task->user_id !== Auth::id()) {
-            return redirect()->route('home')->with('alert', 'Forbidden access.');
+            return redirect()->route('dashboard')->with('alert', 'Forbidden access.');
         }
 
         $validated = $request->validate([
@@ -64,15 +60,15 @@ class TaskController extends Controller
         ]);
 
         $task->update($validated);
-        return redirect()->route('tasks.show', $task)->with('notice', 'Task was successfully updated.');
+        return redirect()->route('tasks.show', $task)->with('notice', 'タスクが正常に更新されました');
     }
 
     public function destroy(Task $task)
     {
         if ($task->user_id !== Auth::id()) {
-            return redirect()->route('home')->with('alert', 'Forbidden access.');
+            return redirect()->route('dashboard')->with('alert', 'Forbidden access.');
         }
         $task->delete();
-        return redirect()->route('tasks.index')->with('notice', 'Task was successfully deleted.');
+        return redirect()->route('tasks.index')->with('notice', 'タスクが正常に削除されました');
     }
 }

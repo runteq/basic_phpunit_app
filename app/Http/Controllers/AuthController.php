@@ -17,15 +17,18 @@ class AuthController extends Controller
         $credentials = $request->validate([
             'email'    => 'required|email',
             'password' => 'required',
+        ], [
+            'email.required'    => 'メールアドレスとパスワードは必須です',
+            'password.required' => 'メールアドレスとパスワードは必須です',
         ]);
 
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
-            return redirect()->intended('/');
+            return redirect()->intended('/dashboard');
         }
 
         return back()->withErrors([
-            'email' => 'Login failed',
+            'email' => 'ログインに失敗しました',
         ]);
     }
 
@@ -34,6 +37,7 @@ class AuthController extends Controller
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-        return redirect('/');
+        return redirect('/login');
     }
 }
+

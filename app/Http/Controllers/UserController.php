@@ -27,8 +27,8 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'email'                 => 'required|email|unique:users,email',
-            'password'              => 'required|min:3|confirmed',
+            'email'    => 'required|email|unique:users,email',
+            'password' => 'required|min:3|confirmed',
         ]);
 
         $user = User::create([
@@ -36,7 +36,7 @@ class UserController extends Controller
             'password' => Hash::make($validated['password']),
         ]);
 
-        return redirect()->route('login')->with('notice', 'User was successfully created.');
+        return redirect()->route('login')->with('notice', '登録が完了しました');
     }
 
     public function show(User $user)
@@ -70,7 +70,7 @@ class UserController extends Controller
 
         $user->update($data);
 
-        return redirect()->route('users.show', $user)->with('notice', 'User was successfully updated.');
+        return redirect()->route('users.show', $user)->with('notice', 'プロフィールが更新されました');
     }
 
     public function destroy(User $user)
@@ -79,6 +79,6 @@ class UserController extends Controller
             return redirect()->route('users.show', auth()->user())->with('alert', 'Forbidden access.');
         }
         $user->delete();
-        return redirect()->route('home')->with('notice', 'User was successfully deleted.');
+        return redirect()->route('dashboard')->with('notice', 'ユーザーが正常に削除されました');
     }
 }
