@@ -22,6 +22,7 @@ services:
       - DB_DATABASE=laravel_db
       - DB_USERNAME=laravel_user
       - DB_PASSWORD=secret
+      - DUSK_DRIVER_URL=http://chrome:4444/wd/hub
     depends_on:
       - db
       - chrome
@@ -58,4 +59,3 @@ volumes:
 networks:
   default:
     driver: bridge
-
