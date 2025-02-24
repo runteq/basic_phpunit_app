@@ -17,9 +17,16 @@ abstract class DuskTestCase extends BaseTestCase
     #[BeforeClass]
     public static function prepare(): void
     {
-        if (! static::runningInSail()) {
+        if (! env('DUSK_DRIVER_URL') && ! static::runningInSail()) {
             static::startChromeDriver(['--port=9515']);
         }
+    }
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+        // すべてのDuskテストで最大10秒待機するように設定
+        \Laravel\Dusk\Browser::$waitSeconds = 10;
     }
 
     /**
@@ -27,15 +34,20 @@ abstract class DuskTestCase extends BaseTestCase
      */
     protected function driver(): RemoteWebDriver
     {
-        $options = (new ChromeOptions)->addArguments(collect([
-            $this->shouldStartMaximized() ? '--start-maximized' : '--window-size=1920,1080',
-            '--disable-search-engine-choice-screen',
-        ])->unless($this->hasHeadlessDisabled(), function (Collection $items) {
-            return $items->merge([
-                '--disable-gpu',
-                '--headless=new',
-            ]);
-        })->all());
+        $options = (new ChromeOptions)->addArguments(
+            collect([
+                $this->shouldStartMaximized() ? '--start-maximized' : '--window-size=1920,1080',
+                '--disable-search-engine-choice-screen',
+            ])->unless($this->hasHeadlessDisabled(), function (Collection $items) {
+                return $items->merge([
+                    '--disable-gpu',
+                    '--headless=new',
+                ]);
+            })->merge([
+                '--no-sandbox',
+                '--disable-dev-shm-usage',
+            ])->all()
+        );
 
         return RemoteWebDriver::create(
             $_ENV['DUSK_DRIVER_URL'] ?? env('DUSK_DRIVER_URL') ?? 'http://localhost:9515',
