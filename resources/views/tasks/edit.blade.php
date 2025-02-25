@@ -4,7 +4,7 @@
 
 @section('content')
     <h1>Edit Task</h1>
-    <form action="{{ route('tasks.update', $task) }}" method="POST">
+    <form action="{{ route('tasks.update', $task) }}" method="POST" novalidate>
         @csrf
         @method('PUT')
         <div class="form-group">

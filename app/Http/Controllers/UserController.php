@@ -30,7 +30,11 @@ class UserController extends Controller
         $validated = $request->validate([
             'email'    => 'required|email|unique:users,email',
             'password' => 'required|min:3|confirmed',
-            'name'     => 'required', // テストではnameも入力しているため追加
+            'name'     => 'required',
+        ], [
+            'email.required'    => 'メールアドレスは必須です',
+            'password.required' => 'パスワードは必須です',
+            'name.required'     => '名前は必須です',
         ]);
 
         $user = User::create([

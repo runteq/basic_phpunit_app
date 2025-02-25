@@ -4,18 +4,7 @@
 
 @section('content')
     <h1>プロフィール編集</h1>
-    
-    @if($errors->any())
-        <div class="alert alert-danger">
-            <ul>
-                @foreach($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
-    
-    <form action="{{ route('users.update', $user) }}" method="POST">
+    <form action="{{ route('users.update', $user) }}" method="POST" novalidate>
         @csrf
         @method('PUT')
         <div class="form-group">

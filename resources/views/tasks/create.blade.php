@@ -4,7 +4,7 @@
 
 @section('content')
     <h1>Create Task</h1>
-    <form action="{{ route('tasks.store') }}" method="POST">
+    <form action="{{ route('tasks.store') }}" method="POST" novalidate>
         @csrf
         <div class="form-group">
             <label for="title">Title:</label>

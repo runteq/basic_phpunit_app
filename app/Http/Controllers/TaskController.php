@@ -26,6 +26,10 @@ class TaskController extends Controller
             'content'  => 'nullable|string',
             'status'   => 'required|in:0,1,2',  // 0:todo, 1:doing, 2:done
             'deadline' => 'nullable|date',
+        ], [
+            'title.required' => 'タイトルは必須です',
+            'title.unique'   => 'そのタイトルは既に使用されています',
+            'status.required' => 'ステータスは必須です',
         ]);
 
         $task = Auth::user()->tasks()->create($validated);

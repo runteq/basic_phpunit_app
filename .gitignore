@@ -19,7 +19,7 @@
 # .env
 .env.*.backup
 .env.testing
-.env.dusk.local
+# .env.dusk.local
 
 # エディタ／IDE 関連
 /.phpactor.json

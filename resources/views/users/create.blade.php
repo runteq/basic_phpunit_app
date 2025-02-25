@@ -4,7 +4,7 @@
 
 @section('content')
     <h1>ユーザー登録</h1>
-    <form action="{{ route('register') }}" method="POST">
+    <form action="{{ route('register') }}" method="POST" novalidate>
         @csrf
         <div class="form-group">
             <label for="name">名前:</label>
