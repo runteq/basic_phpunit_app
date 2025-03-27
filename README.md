@@ -47,4 +47,3 @@
 # 参考資料
 - [Laravel ドキュメント](https://laravel.com/docs)
 - [Laravel Dusk ドキュメント](https://laravel.com/docs/dusk)
-- [Git コミットのヒント](https://www.tam-tam.co.jp/tipsnote/program/post16686.html)
